@@ -1,28 +1,44 @@
 # News Summarization and Text-to-Speech Application
 
 📌 Objective 
+
 Developed a web-based application that extracts key details from multiple news articles related 
 to a given company, performs sentiment analysis, conducts a comparative analysis, and 
 generates a text-to-speech (TTS) output in Hindi. Allow users to input a 
 company name and receive a structured sentiment report along with an audio output. 
 
-✨ Features
+🚀 Installation
 
-Web Scraping: Extracts news articles using BeautifulSoup.
+1️⃣ Clone the Repository:
 
-Summarization: Uses Hugging Face models (BART/T5) for concise news summaries.
+git clone https://github.com/your-username/News_Summarization_TTS.git
+cd News_Summarization_TTS
 
-Sentiment Analysis: Analyzes positive, negative, and neutral sentiments.
+Make sure that python is installed
 
-Comparative Sentiment Analysis: Evaluates sentiment trends across multiple articles.
+2️⃣ Install Dependencies:
 
-Text-to-Speech Conversion: Converts summaries to Hindi speech using gTTS.
+pip install -r requirements.txt
 
-Topic Extraction: Identifies key topics from summarized news.
+3️⃣ Run the FastAPI Backend:
 
-API Communication: FastAPI backend serving APIs for frontend integration.
+python -m uvicorn main:app --reload
 
-Structured Reports: Generates structured output with sentiment distribution.
+4️⃣ Start the Streamlit Frontend:
+
+python -m streamlit run app.py
+
+✨ Phases
+
+- Web Scraping
+- Summarization
+- Sentiment Analysis
+- Comparative Sentiment Analysis
+- Text-to-Speech Conversion
+- Topic Extraction
+- API Communication between frontend and backend
+
+
 
 🛠️ Tech Stack
 
@@ -38,33 +54,88 @@ Frontend: Streamlit
 
 Deployment: Hugging Face Spaces, GitHub
 
-🚀 Installation
+✨ Description
 
-1️⃣ Clone the Repository:
++ Web Scraping :
+  - Fetched news articles using NewsAPI by making an HTTP request.
+  - Extracts full article content from URLs using BeautifulSoup.
 
-git clone https://github.com/your-username/News_Summarization_TTS.git
-cd News_Summarization_TTS
++ Summarization :
+  - Uses a pre-trained model (facebook/bart-large-cnn) from Hugging Face for text summarization.
 
-2️⃣ Install Dependencies:
++ Sentiment Analysis :
+  - Uses TextBlob to determine the sentiment of a given text.
+  - Calculates polarity:
+         Positive sentiment if polarity > 0.
+         Negative sentiment if polarity < 0.
+         Neutral if polarity = 0.
 
-pip install -r requirements.txt
++ Comparative Sentiment Analysis :
+   - Tracks how many articles are positive, negative, or neutral.
+   - Finds common and unique topics between articles.
 
-3️⃣ Run the FastAPI Backend:
++ Topic Extraction :
+  -  Matches predefined keywords to classify articles into topics like Electric Vehicles, Stock Market, Innovation, Regulations, and Autonomous Vehicles.
 
-python -m uvicorn main:app --reload
++ Text-to-Speech Conversion :
+  - Uses GoogleTranslator to convert text from any language to Hindi.
+  - Uses gTTS (Google Text-to-Speech) to generate an audio file (output.mp3) from the translated text.
 
-4️⃣ Start the Streamlit Frontend:
++ API Communication :
+  - NewsAPI is used to fetch news articles.
+  - Uses a pre-trained NLP model (BART/T5) to generate a concise summary of each article.
+  - The API processes news data, applies summarization, sentiment analysis, and topic extraction.
+  - The API can be accessed using Postman or any HTTP client
 
-python -m streamlit run app.py
++ Frontend :
+  - The frontend of the application is built using Streamlit, which provides an interactive and user-friendly interface for users to analyze news sentiment and listen to Hindi text-to-speech (TTS) output.
 
++ User Interaction :
+  - The user enters a company name in the input field.
+  - On clicking "Analyze News", Streamlit makes a request to the FastAPI backend.
+  - The analyzed news articles, sentiment insights, and topics are displayed in a structured format.
+  - Users can listen to the Hindi TTS summary of the overall sentiment.
+  
 
+📌 Assumptions & Limitations
 
+Assumptions:
+
+NewsAPI provides accurate and up-to-date news articles.
+
+Extracted article content is relevant and properly structured.
+
+Sentiment analysis using TextBlob provides a reasonable sentiment classification.
+
+Summarization models (BART/T5) generate meaningful summaries.
+
+Limitations:
+
+NewsAPI Rate Limits: Free-tier API keys have a limited number of requests per day.
+
+Summarization Quality: The model-generated summaries may occasionally miss key details.
+
+Sentiment Analysis Accuracy: TextBlob sentiment analysis may not always capture nuanced sentiments.
+
+Hindi TTS Quality: gTTS provides basic text-to-speech conversion but lacks natural prosody.
 
 
 📜 License
 
-This project is licensed under the MIT License. See the LICENSE file for more details.
+This project is licensed under the MIT License. See the LICENSE.txt file for more details.
 
+🤝 Contribution
+
+Contributions are welcome! Feel free to fork, submit issues, or make pull requests.
+
+🌐 Live Demo
+
+Check out the deployed project on Hugging Face Spaces
+Deployed Project Link : https://huggingface.co/spaces/AnveshaRaikwar/News_Summarization_and_Text_to_Speech_Application
+
+📬 Contact
+
+For any questions, GitHub discussions
 
 
 
