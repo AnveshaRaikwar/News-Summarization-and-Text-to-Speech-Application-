@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+requests
+beautifulsoup4
+transformers
+torch
+nltk
+pandas
+gtts
+streamlit
