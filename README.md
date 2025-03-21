@@ -54,6 +54,8 @@ Frontend: Streamlit
 
 Deployment: Hugging Face Spaces, GitHub
 
+THIRD PARTY API: NEWS API
+
 ✨ Description
 
 + Web Scraping :
@@ -84,6 +86,7 @@ Deployment: Hugging Face Spaces, GitHub
 + API Communication :
   - NewsAPI is used to fetch news articles.
   - Uses a pre-trained NLP model (BART/T5) to generate a concise summary of each article.
+  - The FastAPI backend serves the API, processing news articles and extracting insights.
   - The API processes news data, applies summarization, sentiment analysis, and topic extraction.
   - The API can be accessed using Postman or any HTTP client
 
