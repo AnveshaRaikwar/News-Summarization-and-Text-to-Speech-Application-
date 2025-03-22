@@ -8,4 +8,4 @@ nltk
 pandas
 gtts
 streamlit
-GoogleTranslator
+deep-translator
