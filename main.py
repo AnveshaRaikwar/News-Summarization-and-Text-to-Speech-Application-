@@ -15,6 +15,8 @@ def fetch_news(company_name):
     """
     url = f"https://newsapi.org/v2/everything?q={company_name}&apiKey={NEWS_API_KEY}"
     response = requests.get(url)
+    print("Response Status Code:", response.status_code)
+    print("Response Text:", response.text)
     data = response.json()
     
     if data.get("status") != "ok" or "articles" not in data:
