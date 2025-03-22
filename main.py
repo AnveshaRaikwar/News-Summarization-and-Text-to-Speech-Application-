@@ -5,7 +5,7 @@ from utils.sentiment import analyze_sentiment
 from utils.topic_extraction import extract_topics
 from utils.tts import generate_tts
 
-component = FastAPI()
+app = FastAPI()
 
 NEWS_API_KEY = "fc712e2ed95941f68c99dae23e7b24b4"
 
@@ -22,7 +22,7 @@ def fetch_news(company_name):
     
     return data["articles"][:10]  # Fetch only top 10 articles
 
-@component.get("/news/{company_name}")
+@app.get("/news/{company_name}")
 def get_news(company_name: str):
     articles = fetch_news(company_name)
     
@@ -34,9 +34,9 @@ def get_news(company_name: str):
     
     for article in articles:
         text = article.get("content") or article.get("description") or "No content available."
-        summary = summarize_text(text)  # Apply fixed summarizer
-        sentiment = analyze_sentiment(summary)  # Analyze sentiment
-        topics = extract_topics(summary)  # Extract topics
+        summary = summarize_text(text) 
+        sentiment = analyze_sentiment(summary) 
+        topics = extract_topics(summary) 
         
         processed_articles.append({
             "Title": article["title"],
@@ -46,7 +46,7 @@ def get_news(company_name: str):
         })
         sentiment_counts[sentiment] += 1
 
-    # 🔥 Comparative Analysis (Newly Fixed)
+    # Comparative Analysis (Newly Fixed)
     comparisons = []
     for i in range(len(processed_articles) - 1):
         comparisons.append({
@@ -54,7 +54,7 @@ def get_news(company_name: str):
             "Sentiment Impact": f"The first article has a {processed_articles[i]['Sentiment']} sentiment, whereas the second has a {processed_articles[i+1]['Sentiment']} sentiment."
         })
 
-    # 🔥 Topic Overlap Analysis
+    # Topic Overlap Analysis
     all_topics = [set(a["Topics"]) for a in processed_articles]
     common_topics = list(set.intersection(*all_topics)) if len(all_topics) > 1 else []
     
@@ -66,7 +66,7 @@ def get_news(company_name: str):
     # Final sentiment summary
     final_sentiment_analysis = f"{company_name}'s latest news coverage is mostly " + ("positive." if sentiment_counts["Positive"] > sentiment_counts["Negative"] else "negative.")
     
-    # 🔥 Generate Hindi TTS
+    #  Generate Hindi TTS
     tts_file = generate_tts(final_sentiment_analysis)
 
     # Final structured output
