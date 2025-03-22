@@ -1,3 +1,15 @@
+---
+title: News Summarization N Tts
+emoji: ⚡
+colorFrom: yellow
+colorTo: yellow
+sdk: streamlit
+sdk_version: 1.43.2
+app_file: app.py
+pinned: false
+short_description: News summarization and converting text to speech in hindi
+---
+
 # News Summarization and Text-to-Speech Application
 
 📌 Objective 
