@@ -1,5 +1,9 @@
 import streamlit as st
 import requests
+import subprocess
+
+# Start FastAPI server in the background
+subprocess.Popen(["python", "fastapi_server.py"])
 
 API_URL = "https://anvesharaikwar-news-summarization-n-tts.hf.space/news/"
 
