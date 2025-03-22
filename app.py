@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_URL = "http://127.0.0.1:8000/news/"
+API_URL = "https://anvesharaikwar-news-summarization-n-tts.hf.space/news/"
 
 st.title("📢 News Sentiment & Comparative Analysis")
 
