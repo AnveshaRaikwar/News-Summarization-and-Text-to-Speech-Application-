@@ -15,13 +15,25 @@ def fetch_news(company_name):
     """
     url = f"https://newsapi.org/v2/everything?q={company_name}&apiKey={NEWS_API_KEY}"
     response = requests.get(url)
+
+    # Debugging steps:
     print("Response Status Code:", response.status_code)
-    print("Response Text:", response.text)
-    data = response.json()
-    
-    if data.get("status") != "ok" or "articles" not in data:
+    print("Response Text:", response.text)  # Print the raw response text to see what you get
+
+    try:
+        data = response.json()  # Try to parse the JSON
+    except ValueError:
+        print("Non-JSON response:", response.text)  # If it's not a valid JSON, print the raw response
+
+    # Check for successful response and valid JSON structure
+    if response.status_code != 200:
+        print(f"Error: {response.status_code}")  # Print error if status code is not 200
         return []
-    
+
+    if data.get("status") != "ok" or "articles" not in data:
+        print("Error: No articles found or status is not 'ok'.")
+        return []
+
     return data["articles"][:10]  # Fetch only top 10 articles
 
 @app.get("/news/{company_name}")
