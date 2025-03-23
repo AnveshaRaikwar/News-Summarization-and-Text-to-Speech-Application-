@@ -146,7 +146,7 @@ Contributions are welcome! Feel free to fork, submit issues, or make pull reques
 🌐 Live Demo
 
 Check out the deployed project on Hugging Face Spaces
-Deployed Project Link : https://huggingface.co/spaces/AnveshaRaikwar/News_Summarization_and_Text_to_Speech_Application
+Deployed Project Link : https://huggingface.co/spaces/anvesharaikwar/news-summarization-n-tts
 
 📬 Contact
 
