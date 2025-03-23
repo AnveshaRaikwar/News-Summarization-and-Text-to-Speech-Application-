@@ -10,7 +10,7 @@ API_URL = "http://localhost:7860/news/"  # Ensure the URL matches the FastAPI ba
 # Set the page configuration for the frontend
 st.set_page_config(page_title="News Sentiment & Analysis", page_icon="📢", layout="wide")
 
-# Add a custom header with color
+# Add a custom header with violet gradient
 st.markdown("""
     <style>
         .header {
@@ -19,7 +19,7 @@ st.markdown("""
             font-weight: bold;
             text-align: center;
             padding: 20px;
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);  /* Violet Gradient */
             border-radius: 10px;
             width: 75%;
             margin: 0 auto;
@@ -52,7 +52,7 @@ st.markdown("""
             margin-bottom: 20px;
         }
         .content {
-            background: linear-gradient(135deg, #7b8dff 0%, #b19bff 100%);
+            background: linear-gradient(135deg, #7b8dff 0%, #b19bff 100%);  /* Violet Gradient */
             padding: 20px;
             border-radius: 10px;
             color: white;
