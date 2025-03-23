@@ -21,7 +21,7 @@ st.markdown("""
             padding: 20px;
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             border-radius: 10px;
-            width: 50%;
+            width: 75%;
             margin: 0 auto;
         }
         .subheader {
@@ -73,6 +73,9 @@ st.markdown("""
 
 # Header
 st.markdown('<div class="header">📢 News Sentiment & Comparative Analysis</div>', unsafe_allow_html=True)
+
+# Add space below header
+st.markdown("<br><br>", unsafe_allow_html=True)
 
 # Create two columns for company input and content
 col1, col2 = st.columns([1, 1])  # Equal space for both columns
