@@ -69,8 +69,12 @@ st.markdown("""
             font-size: 18px;
         }
         .input-section {
-            width: 75%;
+            width: 60%;
             margin: 0 auto;
+        }
+        .output-section {
+            width: 60%;
+            margin: 20px auto;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -81,15 +85,12 @@ st.markdown('<div class="header">📢 News Sentiment & Comparative Analysis</div
 # Add space below header
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-# Input section inside 75% width
+# Input section inside 60% width
 with st.container():
     st.markdown('<div class="input-section">', unsafe_allow_html=True)
     
     # Create a single column for company input (centered)
     company_name = st.text_input("Enter a company name:", "Tesla", key="company_name", label_visibility="visible")
-    
-    # Ensure the input field stays within the 75% width and centered
-    st.markdown('<div style="width: 75%; margin: 0 auto;">', unsafe_allow_html=True)
     
     if st.button("Analyze News"):
         with st.spinner("Fetching and analyzing news..."):
@@ -106,6 +107,9 @@ with st.container():
                         if "error" in data:
                             st.error(data["error"])
                         else:
+                            # Results Section in 60% width
+                            st.markdown('<div class="output-section">', unsafe_allow_html=True)
+
                             st.subheader(f"📰 News Articles for {company_name}")
 
                             for i, article in enumerate(data["Articles"]):
@@ -136,6 +140,8 @@ with st.container():
                             # 🔊 Hindi TTS Audio Output
                             st.audio(data["Audio"], format="audio/mp3")
 
+                            st.markdown('</div>', unsafe_allow_html=True)
+
                     except ValueError:
                         st.error("Failed to decode JSON. Please check the API response.")
                 else:
@@ -144,3 +150,4 @@ with st.container():
                 st.error(f"Error: {e}")
 
     st.markdown('</div>', unsafe_allow_html=True)
+
