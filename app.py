@@ -5,7 +5,7 @@ import subprocess
 # Start FastAPI server in the background
 subprocess.Popen(["python", "fastapi_server.py"])
 
-API_URL = "http://localhost:7860/news/"  # Ensure the URL matches the FastAPI backend URL
+API_URL =  "http://localhost:7860/news/"  # Ensure the URL matches the FastAPI backend URL
 
 st.title("📢 News Sentiment & Comparative Analysis")
 
