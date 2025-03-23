@@ -8,7 +8,7 @@ subprocess.Popen(["python", "fastapi_server.py"])
 API_URL = "https://anvesharaikwar-news-summarization-n-tts.hf.space/news/"
 
 # Set page configuration
-st.set_page_config(page_title="News Sentiment & Analysis", page_icon="📢", layout="wide")
+st.set_page_config(page_title="News Summarization & Analysis", page_icon="📢", layout="wide")
 
 # Add custom styles with violet color scheme
 st.markdown("""
