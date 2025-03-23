@@ -5,12 +5,12 @@ import subprocess
 # Start FastAPI server in the background
 subprocess.Popen(["python", "fastapi_server.py"])
 
-API_URL = "http://localhost:7860/news/"  # Ensure the URL matches the FastAPI backend URL
+API_URL = "https://anvesharaikwar-news-summarization-n-tts.hf.space/news/"
 
-# Set the page configuration for the frontend
+# Set page configuration
 st.set_page_config(page_title="News Sentiment & Analysis", page_icon="📢", layout="wide")
 
-# Add a custom header with violet gradient
+# Add custom styles with violet color scheme
 st.markdown("""
     <style>
         .header {
@@ -19,7 +19,7 @@ st.markdown("""
             font-weight: bold;
             text-align: center;
             padding: 20px;
-            background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);  /* Violet Gradient */
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);  /* Violet Gradient */
             border-radius: 10px;
             width: 75%;
             margin: 0 auto;
