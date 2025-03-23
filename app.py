@@ -5,13 +5,49 @@ import subprocess
 # Start FastAPI server in the background
 subprocess.Popen(["python", "fastapi_server.py"])
 
-API_URL =  "http://localhost:7860/news/"  # Ensure the URL matches the FastAPI backend URL
+API_URL = "http://localhost:7860/news/"  # Ensure the URL matches the FastAPI backend URL
 
-st.title("📢 News Sentiment & Comparative Analysis")
+# Set the page configuration for the frontend
+st.set_page_config(page_title="News Sentiment & Analysis", page_icon="📢", layout="wide")
+
+# Add a custom header with color
+st.markdown("""
+    <style>
+        .header {
+            font-size: 36px;
+            color: #1e3d58;
+            font-weight: bold;
+            text-align: center;
+            padding: 20px;
+        }
+        .subheader {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+        .info {
+            font-size: 18px;
+            color: #444;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown('<div class="header">📢 News Sentiment & Comparative Analysis</div>', unsafe_allow_html=True)
 
 company_name = st.text_input("Enter a company name:", "Tesla")
 
-if st.button("Analyze News"):
+if st.button("Analyze News", key="analyze_button"):
     with st.spinner("Fetching and analyzing news..."):
         try:
             response = requests.get(API_URL + company_name)
