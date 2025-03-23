@@ -68,19 +68,22 @@ st.markdown("""
         }
         .logos {
             display: flex;
+            justify-content: space-evenly;
             flex-wrap: wrap;
             gap: 20px;
             padding: 20px;
+            height: 100%;
         }
         .logo {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             background-color: #f1f1f1;
             border-radius: 10px;
             padding: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
 """, unsafe_allow_html=True)
@@ -89,71 +92,29 @@ st.markdown("""
 st.markdown('<div class="header">📢 News Sentiment & Comparative Analysis</div>', unsafe_allow_html=True)
 
 # Create two columns for company input and company logos
-col1, col2 = st.columns([2, 1])  # The first column is for the company input and the second one for logos
+col1, col2 = st.columns([1, 1])  # Equal space for both columns
 
 # Left Column - Company Logos
-with col2:
-    st.markdown('<h3>🖼️ Company Logos</h3>', unsafe_allow_html=True)
-    logos = ['tesla', 'apple', 'microsoft', 'google', 'amazon', 'facebook']  # Example company logos
-    st.write("Select a company logo to explore.")
-    
-    # Display logos (you can replace these with actual images)
-    for logo in logos:
-        st.markdown(f'<div class="logo">{logo.upper()}</div>', unsafe_allow_html=True)
-
-# Right Column - Company Name Input
 with col1:
-    st.subheader("Enter a Company Name:")
-    company_name = st.text_input("", "Tesla")
-    if st.button("Analyze News"):
-        with st.spinner("Fetching and analyzing news..."):
-            try:
-                response = requests.get(API_URL + company_name)
+    st.markdown('<h3>🖼️ Company Logos</h3>', unsafe_allow_html=True)
+    
+    logos = [
+        {"name": "Tesla", "image": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Tesla_Motors_logo.png"},
+        {"name": "Apple", "image": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_%28black%29.svg"},
+        {"name": "Microsoft", "image": "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo_%282012%29.svg"},
+        {"name": "Google", "image": "https://upload.wikimedia.org/wikipedia/commons/2/29/Google_logo.svg"},
+        {"name": "Amazon", "image": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"},
+        {"name": "Facebook", "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"}
+    ]
+    
+    # Display logos with a clickable hover effect for each company
+    st.markdown('<div class="logos">', unsafe_allow_html=True)
+    
+    for logo in logos:
+        st.markdown(f'<div class="logo"><img src="{logo["image"]}" width="80" height="80" alt="{logo["name"]} Logo"/></div>', unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
-                # Log the raw response text for debugging
-                st.write(f"Response Text: {response.text}")
-
-                if response.status_code == 200:
-                    try:
-                        data = response.json()
-
-                        if "error" in data:
-                            st.markdown(f'<p class="error">{data["error"]}</p>', unsafe_allow_html=True)
-                        else:
-                            # News Articles Section
-                            st.subheader(f"📰 News Articles for {company_name}")
-
-                            for i, article in enumerate(data["Articles"]):
-                                st.markdown(f"### {i+1}. {article['Title']}")
-                                st.write(f"**Summary:** {article['Summary']}")
-                                st.write(f"**Sentiment:** {article['Sentiment']}")
-                                st.write(f"**Topics:** {', '.join(article['Topics'])}")
-                                st.write("---")
-
-                            # 🔥 Comparative Analysis Section
-                            st.subheader("📊 Comparative Sentiment & Topic Analysis")
-
-                            st.write("### 🔄 Comparative Sentiment Differences:")
-                            for comparison in data["Comparative Sentiment Score"]["Coverage Differences"]:
-                                st.write(f"- {comparison['Comparison']}")
-                                st.write(f"  - **Sentiment Shift:** {comparison['Sentiment Impact']}")
-
-                            st.write("### 🔍 Topic Overlap:")
-                            st.write(f"**Common Topics:** {', '.join(data['Comparative Sentiment Score']['Topic Overlap']['Common Topics'])}")
-
-                            for i, unique_topics in enumerate(data["Comparative Sentiment Score"]["Topic Overlap"]["Unique Topics"]):
-                                st.write(f"**Unique Topics in Article {i+1}:** {', '.join(unique_topics)}")
-
-                            # 🔥 Final Sentiment Analysis
-                            st.subheader("📢 Overall Sentiment Analysis")
-                            st.write(data["Final Sentiment Analysis"])
-
-                            # 🔊 Hindi TTS Audio Output
-                            st.audio(data["Audio"], format="audio/mp3")
-
-                    except ValueError:
-                        st.error("Failed to decode JSON. Please check the API response.")
-                else:
-                    st.error("Failed to fetch data. Please try again.")
-            except requests.exceptions.RequestException as e:
-                st.error(f"Error: {e}")
+# Right Column - Empty (No content in this column)
+with col2:
+    pass  # No content in this column
