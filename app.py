@@ -68,6 +68,10 @@ st.markdown("""
             color: #ff0000;
             font-size: 18px;
         }
+        .input-section {
+            width: 75%;
+            margin: 0 auto;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -77,65 +81,71 @@ st.markdown('<div class="header">📢 News Sentiment & Comparative Analysis</div
 # Add space below header
 st.markdown("<br><br>", unsafe_allow_html=True)
 
-# Create two columns for company input and content
-col1, col2 = st.columns([1, 1])  # Equal space for both columns
-
-# Left Column - Company Input
-with col1:
-    company_name = st.text_input("Enter a company name:", "Tesla")
+# Input section inside 75% width
+with st.container():
+    st.markdown('<div class="input-section">', unsafe_allow_html=True)
     
-    if st.button("Analyze News"):
-        with st.spinner("Fetching and analyzing news..."):
-            try:
-                response = requests.get(API_URL + company_name)
+    # Create two columns for company input and content
+    col1, col2 = st.columns([1, 1])  # Equal space for both columns
 
-                # Log the raw response text for debugging
-                st.write(f"Response Text: {response.text}")
+    # Left Column - Company Input
+    with col1:
+        company_name = st.text_input("Enter a company name:", "Tesla")
+        
+        if st.button("Analyze News"):
+            with st.spinner("Fetching and analyzing news..."):
+                try:
+                    response = requests.get(API_URL + company_name)
 
-                if response.status_code == 200:
-                    try:
-                        data = response.json()
+                    # Log the raw response text for debugging
+                    st.write(f"Response Text: {response.text}")
 
-                        if "error" in data:
-                            st.error(data["error"])
-                        else:
-                            st.subheader(f"📰 News Articles for {company_name}")
+                    if response.status_code == 200:
+                        try:
+                            data = response.json()
 
-                            for i, article in enumerate(data["Articles"]):
-                                st.markdown(f"### {i+1}. {article['Title']}")
-                                st.write(f"**Summary:** {article['Summary']}")
-                                st.write(f"**Sentiment:** {article['Sentiment']}")
-                                st.write(f"**Topics:** {', '.join(article['Topics'])}")
-                                st.write("---")
+                            if "error" in data:
+                                st.error(data["error"])
+                            else:
+                                st.subheader(f"📰 News Articles for {company_name}")
 
-                            # 🔥 Comparative Analysis Section
-                            st.subheader("📊 Comparative Sentiment & Topic Analysis")
+                                for i, article in enumerate(data["Articles"]):
+                                    st.markdown(f"### {i+1}. {article['Title']}")
+                                    st.write(f"**Summary:** {article['Summary']}")
+                                    st.write(f"**Sentiment:** {article['Sentiment']}")
+                                    st.write(f"**Topics:** {', '.join(article['Topics'])}")
+                                    st.write("---")
 
-                            st.write("### 🔄 Comparative Sentiment Differences:")
-                            for comparison in data["Comparative Sentiment Score"]["Coverage Differences"]:
-                                st.write(f"- {comparison['Comparison']}")
-                                st.write(f"  - **Sentiment Shift:** {comparison['Sentiment Impact']}")
+                                # 🔥 Comparative Analysis Section
+                                st.subheader("📊 Comparative Sentiment & Topic Analysis")
 
-                            st.write("### 🔍 Topic Overlap:")
-                            st.write(f"**Common Topics:** {', '.join(data['Comparative Sentiment Score']['Topic Overlap']['Common Topics'])}")
+                                st.write("### 🔄 Comparative Sentiment Differences:")
+                                for comparison in data["Comparative Sentiment Score"]["Coverage Differences"]:
+                                    st.write(f"- {comparison['Comparison']}")
+                                    st.write(f"  - **Sentiment Shift:** {comparison['Sentiment Impact']}")
 
-                            for i, unique_topics in enumerate(data["Comparative Sentiment Score"]["Topic Overlap"]["Unique Topics"]):
-                                st.write(f"**Unique Topics in Article {i+1}:** {', '.join(unique_topics)}")
+                                st.write("### 🔍 Topic Overlap:")
+                                st.write(f"**Common Topics:** {', '.join(data['Comparative Sentiment Score']['Topic Overlap']['Common Topics'])}")
 
-                            # 🔥 Final Sentiment Analysis
-                            st.subheader("📢 Overall Sentiment Analysis")
-                            st.write(data["Final Sentiment Analysis"])
+                                for i, unique_topics in enumerate(data["Comparative Sentiment Score"]["Topic Overlap"]["Unique Topics"]):
+                                    st.write(f"**Unique Topics in Article {i+1}:** {', '.join(unique_topics)}")
 
-                            # 🔊 Hindi TTS Audio Output
-                            st.audio(data["Audio"], format="audio/mp3")
+                                # 🔥 Final Sentiment Analysis
+                                st.subheader("📢 Overall Sentiment Analysis")
+                                st.write(data["Final Sentiment Analysis"])
 
-                    except ValueError:
-                        st.error("Failed to decode JSON. Please check the API response.")
-                else:
-                    st.error("Failed to fetch data. Please try again.")
-            except requests.exceptions.RequestException as e:
-                st.error(f"Error: {e}")
+                                # 🔊 Hindi TTS Audio Output
+                                st.audio(data["Audio"], format="audio/mp3")
 
-# Right Column - Empty (No content in this column)
-with col2:
-    pass  # No content in this column
+                        except ValueError:
+                            st.error("Failed to decode JSON. Please check the API response.")
+                    else:
+                        st.error("Failed to fetch data. Please try again.")
+                except requests.exceptions.RequestException as e:
+                    st.error(f"Error: {e}")
+
+    # Right Column - Empty (No content in this column)
+    with col2:
+        pass  # No content in this column
+
+    st.markdown('</div>', unsafe_allow_html=True)
