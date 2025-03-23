@@ -66,63 +66,94 @@ st.markdown("""
             color: #ff0000;
             font-size: 18px;
         }
+        .logos {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 """, unsafe_allow_html=True)
 
 # Header
 st.markdown('<div class="header">📢 News Sentiment & Comparative Analysis</div>', unsafe_allow_html=True)
 
-company_name = st.text_input("Enter a company name:", "Tesla")
+# Create two columns for company input and company logos
+col1, col2 = st.columns([2, 1])  # The first column is for the company input and the second one for logos
 
-if st.button("Analyze News", key="analyze_button"):
-    with st.spinner("Fetching and analyzing news..."):
-        try:
-            response = requests.get(API_URL + company_name)
-            
-            # Log the raw response text for debugging
-            st.write(f"Response Text: {response.text}")
-            
-            if response.status_code == 200:
-                try:
-                    data = response.json()
-                    
-                    if "error" in data:
-                        st.markdown(f'<p class="error">{data["error"]}</p>', unsafe_allow_html=True)
-                    else:
-                        # News Articles Section
-                        st.subheader(f"📰 News Articles for {company_name}")
-                        
-                        for i, article in enumerate(data["Articles"]):
-                            st.markdown(f"### {i+1}. {article['Title']}")
-                            st.write(f"**Summary:** {article['Summary']}")
-                            st.write(f"**Sentiment:** {article['Sentiment']}")
-                            st.write(f"**Topics:** {', '.join(article['Topics'])}")
-                            st.write("---")
+# Left Column - Company Logos
+with col2:
+    st.markdown('<h3>🖼️ Company Logos</h3>', unsafe_allow_html=True)
+    logos = ['tesla', 'apple', 'microsoft', 'google', 'amazon', 'facebook']  # Example company logos
+    st.write("Select a company logo to explore.")
+    
+    # Display logos (you can replace these with actual images)
+    for logo in logos:
+        st.markdown(f'<div class="logo">{logo.upper()}</div>', unsafe_allow_html=True)
 
-                        # 🔥 Comparative Analysis Section
-                        st.subheader("📊 Comparative Sentiment & Topic Analysis")
-                        
-                        st.write("### 🔄 Comparative Sentiment Differences:")
-                        for comparison in data["Comparative Sentiment Score"]["Coverage Differences"]:
-                            st.write(f"- {comparison['Comparison']}")
-                            st.write(f"  - **Sentiment Shift:** {comparison['Sentiment Impact']}")
-                        
-                        st.write("### 🔍 Topic Overlap:")
-                        st.write(f"**Common Topics:** {', '.join(data['Comparative Sentiment Score']['Topic Overlap']['Common Topics'])}")
-                        
-                        for i, unique_topics in enumerate(data["Comparative Sentiment Score"]["Topic Overlap"]["Unique Topics"]):
-                            st.write(f"**Unique Topics in Article {i+1}:** {', '.join(unique_topics)}")
+# Right Column - Company Name Input
+with col1:
+    st.subheader("Enter a Company Name:")
+    company_name = st.text_input("", "Tesla")
+    if st.button("Analyze News"):
+        with st.spinner("Fetching and analyzing news..."):
+            try:
+                response = requests.get(API_URL + company_name)
 
-                        # 🔥 Final Sentiment Analysis
-                        st.subheader("📢 Overall Sentiment Analysis")
-                        st.write(data["Final Sentiment Analysis"])
+                # Log the raw response text for debugging
+                st.write(f"Response Text: {response.text}")
 
-                        # 🔊 Hindi TTS Audio Output
-                        st.audio(data["Audio"], format="audio/mp3")
+                if response.status_code == 200:
+                    try:
+                        data = response.json()
 
-                except ValueError:
-                    st.error("Failed to decode JSON. Please check the API response.")
-            else:
-                st.error("Failed to fetch data. Please try again.")
-        except requests.exceptions.RequestException as e:
-            st.error(f"Error: {e}")
+                        if "error" in data:
+                            st.markdown(f'<p class="error">{data["error"]}</p>', unsafe_allow_html=True)
+                        else:
+                            # News Articles Section
+                            st.subheader(f"📰 News Articles for {company_name}")
+
+                            for i, article in enumerate(data["Articles"]):
+                                st.markdown(f"### {i+1}. {article['Title']}")
+                                st.write(f"**Summary:** {article['Summary']}")
+                                st.write(f"**Sentiment:** {article['Sentiment']}")
+                                st.write(f"**Topics:** {', '.join(article['Topics'])}")
+                                st.write("---")
+
+                            # 🔥 Comparative Analysis Section
+                            st.subheader("📊 Comparative Sentiment & Topic Analysis")
+
+                            st.write("### 🔄 Comparative Sentiment Differences:")
+                            for comparison in data["Comparative Sentiment Score"]["Coverage Differences"]:
+                                st.write(f"- {comparison['Comparison']}")
+                                st.write(f"  - **Sentiment Shift:** {comparison['Sentiment Impact']}")
+
+                            st.write("### 🔍 Topic Overlap:")
+                            st.write(f"**Common Topics:** {', '.join(data['Comparative Sentiment Score']['Topic Overlap']['Common Topics'])}")
+
+                            for i, unique_topics in enumerate(data["Comparative Sentiment Score"]["Topic Overlap"]["Unique Topics"]):
+                                st.write(f"**Unique Topics in Article {i+1}:** {', '.join(unique_topics)}")
+
+                            # 🔥 Final Sentiment Analysis
+                            st.subheader("📢 Overall Sentiment Analysis")
+                            st.write(data["Final Sentiment Analysis"])
+
+                            # 🔊 Hindi TTS Audio Output
+                            st.audio(data["Audio"], format="audio/mp3")
+
+                    except ValueError:
+                        st.error("Failed to decode JSON. Please check the API response.")
+                else:
+                    st.error("Failed to fetch data. Please try again.")
+            except requests.exceptions.RequestException as e:
+                st.error(f"Error: {e}")
