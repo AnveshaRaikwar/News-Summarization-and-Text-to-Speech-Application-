@@ -3,7 +3,7 @@ import requests
 
 API_URL = "http://127.0.0.1:8000/news/"
 
-st.title("📢 News Sentiment & Comparative Analysis")
+st.title("📢 News Summarization & Comparative Analysis")
 
 company_name = st.text_input("Enter a company name:", "Tesla")
 
