@@ -15,10 +15,12 @@ st.markdown("""
     <style>
         .header {
             font-size: 36px;
-            color: #1e3d58;
+            color: #ffffff;
             font-weight: bold;
             text-align: center;
             padding: 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 10px;
         }
         .subheader {
             font-size: 24px;
@@ -40,9 +42,34 @@ st.markdown("""
         .button:hover {
             background-color: #45a049;
         }
+        .card {
+            background-color: #f7f7f7;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .content {
+            background: linear-gradient(135deg, #7b8dff 0%, #b19bff 100%);
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+        .info-box {
+            background-color: #ffffff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .error {
+            color: #ff0000;
+            font-size: 18px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
+# Header
 st.markdown('<div class="header">📢 News Sentiment & Comparative Analysis</div>', unsafe_allow_html=True)
 
 company_name = st.text_input("Enter a company name:", "Tesla")
@@ -60,8 +87,9 @@ if st.button("Analyze News", key="analyze_button"):
                     data = response.json()
                     
                     if "error" in data:
-                        st.error(data["error"])
+                        st.markdown(f'<p class="error">{data["error"]}</p>', unsafe_allow_html=True)
                     else:
+                        # News Articles Section
                         st.subheader(f"📰 News Articles for {company_name}")
                         
                         for i, article in enumerate(data["Articles"]):
